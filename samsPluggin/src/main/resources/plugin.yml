@@ -1,0 +1,24 @@
+name: samsPluggin
+main: edu.unca.schalvet.samsPluggin.samsPluggin
+version: 0.1
+
+commands:
+   kaboom:
+      description: creates a wall of TNT block set atop lava around the player
+   iWanaDiamond:
+   	  description: creates a block of diamond 
+   secret:
+      description: prints a message
+      
+permissions:
+  pluggin.*:
+    description: permissions of all  pluggin commands
+    default: true
+    children:
+      pluggin.secret:
+        description: gives the player a question
+      demo.iWanaDiamond:
+        description: gives the player a diamond block
+        
+
+    
