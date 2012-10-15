@@ -20,12 +20,15 @@ package edu.unca.schalvet.samsPluggin;
 import java.text.MessageFormat;
 
 import org.bukkit.Location;
+import org.bukkit.Material;
 import org.bukkit.World;
 import org.bukkit.block.Block;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
+import org.bukkit.enchantments.Enchantment;
 import org.bukkit.entity.Player;
+import org.bukkit.inventory.ItemStack;
 
 import com.google.common.base.Joiner;
 
@@ -44,21 +47,52 @@ public class samsPlugginCommandExecutor implements CommandExecutor {
         if (args.length == 0) {
 			return false;
 		}  else if (args[0].equalsIgnoreCase("iWanaDiamond")) {
-				Player randomGuy = (Player) sender;
-				Location loc = randomGuy.getLocation();
-				World w = loc.getWorld();
-				loc.setX(loc.getX() + 3);
-				loc.setZ(loc.getZ() + 2);
-				Block b = w.getBlockAt(loc);
-				b.setTypeId(57);
-				return true;
+			Player randomGuy = (Player) sender;
+			Location loc = randomGuy.getLocation();
+			World w = loc.getWorld();
+			loc.setX(loc.getX() + 3);
+			loc.setZ(loc.getZ() + 2);
+			Block b = w.getBlockAt(loc);
+			b.setTypeId(57);
+			plugin.log.info("gave player a diamond"); 
+			return true;
+		
+			}     else if (args[0].equalsIgnoreCase("enchante")) {
+			Player randomGuy = (Player) sender;
+			Location loc = randomGuy.getLocation();
+			World w = loc.getWorld();
 			
-			/*	creates a wall of dynamite all around the player. underneath each block of TNT is lava that sets it off!!*/
-		}  else if (args[0].equalsIgnoreCase("kaboom")) {
+			if(randomGuy.getInventory().getItemInHand().getTypeId() == 276){
+				randomGuy.getInventory().getItemInHand().addEnchantment(Enchantment.DAMAGE_UNDEAD, 5);
+				randomGuy.sendMessage("Your Sword Will Now Through Zombies Like Butter!!");
+				plugin.log.info("gave player enchantement vs undead lvl 5"); 
+			}
+			
+			else {
+				randomGuy.sendMessage("Get your self a diamond sword with IRINVINCIBLE");
+				plugin.log.info("player has no sword"); 
+			}
+			
+			return true;
+		
+
+			} else if (args[0].equalsIgnoreCase("IRINVINCIBLE")) {
 			
 			Player randomGuy = (Player) sender;
 			Location loc = randomGuy.getLocation();
 			World w = loc.getWorld();
+			
+			
+			randomGuy.getInventory().clear();
+			randomGuy.getInventory().setHelmet(new ItemStack(Material.DIAMOND_HELMET, 1));
+			randomGuy.getInventory().setBoots(new ItemStack(Material.DIAMOND_BOOTS, 1));
+			randomGuy.getInventory().setChestplate(new ItemStack(Material.DIAMOND_CHESTPLATE, 1));
+			randomGuy.getInventory().setLeggings(new ItemStack(Material.DIAMOND_LEGGINGS, 1));
+			randomGuy.getInventory().setItemInHand(new ItemStack(Material.DIAMOND_SWORD, 1));
+			randomGuy.sendMessage("Fight Well Brave Warrior");
+			plugin.log.info("gave player Diomond armor set and sword"); 
+			
+			//BELLOW IS OLD CODE THAT DIDNT WORK AS WANTED, BUT WORTH KEEPING.
 			
 			/*	The idea is that with these loops we fill the space all around the player with TNT:
 			 * 	____________________________
@@ -69,13 +103,13 @@ public class samsPlugginCommandExecutor implements CommandExecutor {
 			 *  The Coordinance above are all created by these loops starting with the bottom left corner
 			 *  and each time a block is set a lava block is also created at the same spot only at loc Z-1
 			 */
-			
-			for(int i=1; i<4; i++)
+			/*for(int i=1; i<4; i++)
 			{
 				for(int n=1; n<4; n++)
 				{
-					if(i-2!=0 && n-2!=0)
-					{				//we dont want to play a TNT block on the player himself
+					if(i-2!=0 && n-2!=0)				//we dont want to place a TNT block on the player himself
+					{				
+						loc = randomGuy.getLocation();	//resets the loc coordinance to be centered on the player in preperation for next block
 						loc.setX(loc.getY() + i-2);		//sets the Y loc starting with bottom (-1)
 						loc.setY(loc.getX() + n-2);		//sets the X loc starting with left (-1)
 						Block tnt = w.getBlockAt(loc);	//gets the address of the TNT block at players ground level
@@ -83,20 +117,40 @@ public class samsPlugginCommandExecutor implements CommandExecutor {
 						Block lava = w.getBlockAt(loc);	//gets the address of the lava block, which is one block lover than the TNT block
 						tnt.setTypeId(46);				//gives the TNT block the proper TNT ID
 						lava.setTypeId(11);				//gives the lava block the proper lava ID
-						loc = randomGuy.getLocation();	//resets the loc coordinance to be centered on the player in preperation for next block
+						plugin.getLogger().info("inside loop: i="+i+", n="+n); //shows whats going on in the terminal
+						
 					}
 				}
-			}
+			}*/
 			
 			return true;
 			
 		} else if (args[0].equalsIgnoreCase("secret") && sender.hasPermission("pluggin.secret")) {
-			plugin.getLogger().info("To be or not to be THAT is the question");
+			Player randomGuy = (Player) sender;
+			Location loc = randomGuy.getLocation();
+			World w = loc.getWorld();
+			randomGuy.sendMessage("To be or not to be THAT is the question");
+			plugin.log.info("Sent message to player"); 
 			return true;
-		} else {
+		}
+		/*else if (args[0].equalsIgnoreCase("rain") && sender.hasPermission("pluggin.rain")) {
+			Player fred =(Player) sender;
+			Location loc = fred.getBedSpawnLocation();
+			fred.teleport(loc);
+			fred.sendMessage("Sleepy time");
+			return true;
+		}*/else {
 			return false;
 		}
     }
     
+    //Old pluggin
+    /*commands:			
+    	   kaboom:
+    	     description: creates a wall of TNT block set atop lava around the player
+    	   iWanaDiamond:
+    	   	  description: creates a block of diamond 
+    	   secret:
+    	      description: prints a message*/
     //public void kaboom(){}
 }

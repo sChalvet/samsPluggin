@@ -27,11 +27,14 @@ public class samsPluggin extends JavaPlugin {
 	private final samsPlugginEventListener eventListener = new samsPlugginEventListener(this);
 	//ClassListeners
 
+	protected samsPlugginLogger log;
 	public void onDisable() {
 		// add any code you want to be executed when your plugin is disabled
 	}
 
 	public void onEnable() { 
+		
+		this.log= new samsPlugginLogger(this);
 
 		PluginManager pm = this.getServer().getPluginManager();
 
