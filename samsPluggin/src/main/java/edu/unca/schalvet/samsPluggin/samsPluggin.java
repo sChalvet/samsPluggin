@@ -42,8 +42,8 @@ public class samsPluggin extends JavaPlugin {
 
 		// you can register multiple classes to handle events if you want
 		// just call pm.registerEvents() on an instance of each class
-		pm.registerEvents(eventListener, this);
+		pm.registerEvents(eventListener, this);//(new samsPlugginEventListener(), this);
 
-		// do any other initialisation you need here...
+	
 	}
 }

@@ -18,14 +18,21 @@ package edu.unca.schalvet.samsPluggin;
  */
 
 import org.bukkit.Bukkit;
+import org.bukkit.Material;
+
 import java.text.MessageFormat;
 import org.bukkit.plugin.java.JavaPlugin;
+import org.bukkit.enchantments.Enchantment;
 import org.bukkit.entity.EntityType;
+import org.bukkit.entity.HumanEntity;
 import org.bukkit.event.EventHandler;
+import org.bukkit.event.EventPriority;
 import org.bukkit.event.Listener;
 import org.bukkit.event.block.BlockPlaceEvent;
+import org.bukkit.event.entity.EntityDamageEvent;
 
 import org.bukkit.event.player.PlayerInteractEntityEvent;
+import org.bukkit.event.player.PlayerItemHeldEvent;
 import org.bukkit.event.player.PlayerJoinEvent;
 
 
@@ -37,15 +44,37 @@ public class samsPlugginEventListener implements Listener {
 		this.plugin = plugin;
 	}
 
-	// This is just one possible event you can hook.
-	// See http://jd.bukkit.org/apidocs/ for a full event list.
 
-	// All event handlers must be marked with the @EventHandler annotation 
-	// The method name does not matter, only the type of the event parameter
-	// is used to distinguish what is handled.
-
-	@EventHandler
+	@EventHandler(priority = EventPriority.HIGHEST)
 	public void onBlockPlace(BlockPlaceEvent event) {
-		Bukkit.getServer().broadcastMessage("Player " + event.getPlayer().getName() + " placed " + event.getBlock().getType() + " at " + event.getBlock().getLocation());
+		if (event.isCancelled()) return;
+		
+		if (event.getBlock().getType() == Material.TNT){
+			event.setCancelled(true);
+		}
+		
+		//Bukkit.getServer().broadcastMessage("Player " + event.getPlayer().getName() + " placed " + event.getBlock().getType() + " at " + event.getBlock().getLocation());
+	}
+	
+	@EventHandler(priority = EventPriority.LOWEST)
+	public void whatsInMyHand(PlayerItemHeldEvent event) {
+		
+		int length =event.getPlayer().getInventory().getItemInHand().toString().length();
+		String item=event.getPlayer().getInventory().getItemInHand().toString().substring(10, (length-5));
+		
+		//randomGuy.getInventory().getItemInHand().addEnchantment(Enchantment.DAMAGE_UNDEAD, 5);
+		Bukkit.getServer().broadcastMessage("Player " + event.getPlayer().getName() + " had a " + item + " in his hand ");
+	}
+	
+	@EventHandler(priority = EventPriority.LOWEST)
+	public void damaged(EntityDamageEvent event) {
+		
+		
+		int damage=event.getDamage();
+		String cause=event.getCause().name();
+		String type=event.getEntity().getType().name();
+		
+		
+		Bukkit.getServer().broadcastMessage(type+ " suffered "+damage+" in damage because of an "+ cause);
 	}
 }

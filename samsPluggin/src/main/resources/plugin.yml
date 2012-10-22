@@ -20,6 +20,8 @@ permissions:
         description: Gives Player Armor and a Sword
       pluggin.iWanaDiamond:
         description: gives the player a diamond block
+      pluggin.kaboom:
+        description: builds a wall of TNT around player
         
 
     

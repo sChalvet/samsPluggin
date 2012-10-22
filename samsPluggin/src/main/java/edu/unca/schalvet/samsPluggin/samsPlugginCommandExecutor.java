@@ -50,8 +50,9 @@ public class samsPlugginCommandExecutor implements CommandExecutor {
 			Player randomGuy = (Player) sender;
 			Location loc = randomGuy.getLocation();
 			World w = loc.getWorld();
-			loc.setX(loc.getX() + 3);
-			loc.setZ(loc.getZ() + 2);
+			loc.setX(loc.getX() + 1);
+			loc.setZ(loc.getZ() - 1);
+			loc.setY(loc.getY() + 1);
 			Block b = w.getBlockAt(loc);
 			b.setTypeId(57);
 			plugin.log.info("gave player a diamond"); 
@@ -92,7 +93,13 @@ public class samsPlugginCommandExecutor implements CommandExecutor {
 			randomGuy.sendMessage("Fight Well Brave Warrior");
 			plugin.log.info("gave player Diomond armor set and sword"); 
 			
-			//BELLOW IS OLD CODE THAT DIDNT WORK AS WANTED, BUT WORTH KEEPING.
+			return true;
+			
+			}else if (args[0].equalsIgnoreCase("kaboom")) {
+				
+				Player randomGuy = (Player) sender;
+				Location loc = randomGuy.getLocation();
+				World w = loc.getWorld();
 			
 			/*	The idea is that with these loops we fill the space all around the player with TNT:
 			 * 	____________________________
@@ -103,25 +110,34 @@ public class samsPlugginCommandExecutor implements CommandExecutor {
 			 *  The Coordinance above are all created by these loops starting with the bottom left corner
 			 *  and each time a block is set a lava block is also created at the same spot only at loc Z-1
 			 */
-			/*for(int i=1; i<4; i++)
+				
+			randomGuy.sendMessage("Run!");
+				
+			for(int y=1; y<4; y++)
 			{
-				for(int n=1; n<4; n++)
+				plugin.log.info("inside 1st loop: y="+y);
+				for(int x=1; x<4; x++)
 				{
-					if(i-2!=0 && n-2!=0)				//we dont want to place a TNT block on the player himself
+					plugin.log.info("inside 2nd loop:x="+x);
+					if(y-2!=0 || x-2!=0)				//we dont want to place a TNT block on the player himself
 					{				
-						loc = randomGuy.getLocation();	//resets the loc coordinance to be centered on the player in preperation for next block
-						loc.setX(loc.getY() + i-2);		//sets the Y loc starting with bottom (-1)
-						loc.setY(loc.getX() + n-2);		//sets the X loc starting with left (-1)
+						loc = randomGuy.getLocation();//resets the loc coordinance to be centered on the player in preperation for next block
+						w = loc.getWorld();	
+						loc.setX(loc.getY() + (y-2));		//sets the Y loc starting with bottom (-1)
+						loc.setY(loc.getX() + (x-2));		//sets the X loc starting with left (-1)
 						Block tnt = w.getBlockAt(loc);	//gets the address of the TNT block at players ground level
-						loc.setZ(loc.getZ() - 1);		//sets the Y loc to -1 relative to the player
+						tnt.setTypeId(57);//(46);				//gives the TNT block the proper TNT ID
+						plugin.log.info("loc TNTx="+loc.getX()+", TNTy="+loc.getY()+", TNTz="+loc.getZ());
+						loc.setZ(loc.getZ() + 1);		//sets the Y loc to -1 relative to the player
 						Block lava = w.getBlockAt(loc);	//gets the address of the lava block, which is one block lover than the TNT block
-						tnt.setTypeId(46);				//gives the TNT block the proper TNT ID
-						lava.setTypeId(11);				//gives the lava block the proper lava ID
-						plugin.getLogger().info("inside loop: i="+i+", n="+n); //shows whats going on in the terminal
+						lava.setTypeId(57);//(11);				//gives the lava block the proper lava ID
+						plugin.log.info("loc LAVAx="+loc.getX()+", LAVAy="+loc.getY()+", LAVAz="+loc.getZ());
+						plugin.log.info("inside if: x="+(x-2)+", y="+(y-2)); //shows whats going on in the terminal
+						plugin.log.info("loc="+loc);
 						
 					}
 				}
-			}*/
+			}
 			
 			return true;
 			
