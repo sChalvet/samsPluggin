@@ -1,0 +1,27 @@
+name: samsPluggin
+main: edu.unca.schalvet.samsPluggin.samsPluggin
+version: 0.1
+
+commands:
+  pluggin:
+    description: this pluggin allows you to rule the world
+    usage: /<pluggin> command 
+    permission: pluggin.*
+permissions:
+  pluggin.*:
+    description: permissions of all  pluggin commands
+    default: true
+    children:
+      pluggin.secret:
+        description: gives the player a question
+      pluggin.enchante:
+        description: gives the player an enchantment on his sword
+      pluggin.IRINVINCIBLE:
+        description: Gives Player Armor and a Sword
+      pluggin.iWanaDiamond:
+        description: gives the player a diamond block
+      pluggin.kaboom:
+        description: builds a wall of TNT around player
+      pluggin.signin:
+        description: stores the players name
+    
