@@ -17,7 +17,10 @@ package edu.unca.schalvet.samsPluggin;
     along with Foobar.  If not, see <http://www.gnu.org/licenses/>.
  */
 
+import java.text.DateFormat;
 import java.text.MessageFormat;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 
 import org.bukkit.Location;
 import org.bukkit.Material;
@@ -40,7 +43,7 @@ public class samsPlugginCommandExecutor implements CommandExecutor {
         this.plugin = plugin;
     }
 
-    @Override
+    //@Override
     public boolean onCommand(CommandSender sender, Command command, String label, String[] args) {
         plugin.getLogger().info("onCommand Reached in samsPluggin");
 
@@ -55,7 +58,7 @@ public class samsPlugginCommandExecutor implements CommandExecutor {
 			loc.setY(loc.getY() + 1);
 			Block b = w.getBlockAt(loc);
 			b.setTypeId(57);
-			plugin.log.info("gave player a diamond"); 
+			//plugin.log.info("gave player a diamond"); 
 			return true;
 		
 			}     else if (args[0].equalsIgnoreCase("enchante")) {
@@ -66,12 +69,12 @@ public class samsPlugginCommandExecutor implements CommandExecutor {
 			if(randomGuy.getInventory().getItemInHand().getTypeId() == 276){
 				randomGuy.getInventory().getItemInHand().addEnchantment(Enchantment.DAMAGE_UNDEAD, 5);
 				randomGuy.sendMessage("Your Sword Will Now Through Zombies Like Butter!!");
-				plugin.log.info("gave player enchantement vs undead lvl 5"); 
+				//plugin.log.info("gave player enchantement vs undead lvl 5"); 
 			}
 			
 			else {
 				randomGuy.sendMessage("Get your self a diamond sword with IRINVINCIBLE");
-				plugin.log.info("player has no sword"); 
+			//	plugin.log.info("player has no sword"); 
 			}
 			
 			return true;
@@ -91,7 +94,7 @@ public class samsPlugginCommandExecutor implements CommandExecutor {
 			randomGuy.getInventory().setLeggings(new ItemStack(Material.DIAMOND_LEGGINGS, 1));
 			randomGuy.getInventory().setItemInHand(new ItemStack(Material.DIAMOND_SWORD, 1));
 			randomGuy.sendMessage("Fight Well Brave Warrior");
-			plugin.log.info("gave player Diomond armor set and sword"); 
+			//plugin.log.info("gave player Diomond armor set and sword"); 
 			
 			return true;
 			
@@ -115,10 +118,10 @@ public class samsPlugginCommandExecutor implements CommandExecutor {
 				
 			for(int y=1; y<4; y++)
 			{
-				plugin.log.info("inside 1st loop: y="+y);
+			//	plugin.log.info("inside 1st loop: y="+y);
 				for(int x=1; x<4; x++)
 				{
-					plugin.log.info("inside 2nd loop:x="+x);
+				//	plugin.log.info("inside 2nd loop:x="+x);
 					if(y-2!=0 || x-2!=0)				//we dont want to place a TNT block on the player himself
 					{				
 						loc = randomGuy.getLocation();//resets the loc coordinance to be centered on the player in preperation for next block
@@ -127,13 +130,13 @@ public class samsPlugginCommandExecutor implements CommandExecutor {
 						loc.setY(loc.getX() + (x-2));		//sets the X loc starting with left (-1)
 						Block tnt = w.getBlockAt(loc);	//gets the address of the TNT block at players ground level
 						tnt.setTypeId(57);//(46);				//gives the TNT block the proper TNT ID
-						plugin.log.info("loc TNTx="+loc.getX()+", TNTy="+loc.getY()+", TNTz="+loc.getZ());
+					//	plugin.log.info("loc TNTx="+loc.getX()+", TNTy="+loc.getY()+", TNTz="+loc.getZ());
 						loc.setZ(loc.getZ() + 1);		//sets the Y loc to -1 relative to the player
 						Block lava = w.getBlockAt(loc);	//gets the address of the lava block, which is one block lover than the TNT block
 						lava.setTypeId(57);//(11);				//gives the lava block the proper lava ID
-						plugin.log.info("loc LAVAx="+loc.getX()+", LAVAy="+loc.getY()+", LAVAz="+loc.getZ());
-						plugin.log.info("inside if: x="+(x-2)+", y="+(y-2)); //shows whats going on in the terminal
-						plugin.log.info("loc="+loc);
+					//	plugin.log.info("loc LAVAx="+loc.getX()+", LAVAy="+loc.getY()+", LAVAz="+loc.getZ());
+					//	plugin.log.info("inside if: x="+(x-2)+", y="+(y-2)); //shows whats going on in the terminal
+					//	plugin.log.info("loc="+loc);
 						
 					}
 				}
@@ -146,9 +149,21 @@ public class samsPlugginCommandExecutor implements CommandExecutor {
 			Location loc = randomGuy.getLocation();
 			World w = loc.getWorld();
 			randomGuy.sendMessage("To be or not to be THAT is the question");
-			plugin.log.info("Sent message to player"); 
+			//plugin.log.info("Sent message to player"); 
 			return true;
 		}
+        
+		 else if (args[0].equalsIgnoreCase("signin") ) {
+			 	Player randomGuy = (Player) sender;
+			 	
+			 	DateFormat dateFormat = new SimpleDateFormat("yyyy/MM/dd HH:mm:ss");
+			 	Date date = new Date();
+			 	
+				plugin.playerNames.add(randomGuy.getDisplayName()+ " signed in on server at " + dateFormat.format(date));
+				
+				//plugin.log.info("Sent message to player"); 
+				return true;
+			}
 		/*else if (args[0].equalsIgnoreCase("rain") && sender.hasPermission("pluggin.rain")) {
 			Player fred =(Player) sender;
 			Location loc = fred.getBedSpawnLocation();

@@ -22,6 +22,6 @@ permissions:
         description: gives the player a diamond block
       pluggin.kaboom:
         description: builds a wall of TNT around player
-        
-
+      pluggin.signin:
+        description: stores the players name
     

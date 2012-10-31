@@ -17,8 +17,12 @@ package edu.unca.schalvet.samsPluggin;
     along with Foobar.  If not, see <http://www.gnu.org/licenses/>.
  */
 
+import java.io.File;
+
 import org.bukkit.plugin.PluginManager;
 import org.bukkit.plugin.java.JavaPlugin;
+
+import edu.unca.schalvet.samsPluggin.util.ListStore;
 
 public class samsPluggin extends JavaPlugin {
 
@@ -27,17 +31,30 @@ public class samsPluggin extends JavaPlugin {
 	private final samsPlugginEventListener eventListener = new samsPlugginEventListener(this);
 	//ClassListeners
 
-	protected samsPlugginLogger log;
+	//protected samsPlugginLogger log;
+	public ListStore playerNames;
+	
+	
 	public void onDisable() {
-		// add any code you want to be executed when your plugin is disabled
+		this.playerNames.save();
 	}
 
 	public void onEnable() { 
 		
-		this.log= new samsPlugginLogger(this);
+		//this.log= new samsPlugginLogger(this);
+		
+	
 
+		String pluginFolder = this.getDataFolder().getAbsolutePath();
+		
+		(new File(pluginFolder)).mkdirs();
+		this.playerNames = new ListStore (new File(pluginFolder + File.separator +"samsPluggin.txt"));
+	
+		this.playerNames.laod();
+		
 		PluginManager pm = this.getServer().getPluginManager();
-
+	
+		
 		getCommand("pluggin").setExecutor(commandExecutor);
 
 		// you can register multiple classes to handle events if you want
