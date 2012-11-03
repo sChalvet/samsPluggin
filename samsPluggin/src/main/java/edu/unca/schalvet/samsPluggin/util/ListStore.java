@@ -29,7 +29,7 @@ public class ListStore {
 		
 	}
 
-	public void laod(){
+	public void load(){
 		try {
 			DataInputStream input = new DataInputStream(new FileInputStream(this.storageFile));
 			BufferedReader reader = new BufferedReader (new InputStreamReader(input));

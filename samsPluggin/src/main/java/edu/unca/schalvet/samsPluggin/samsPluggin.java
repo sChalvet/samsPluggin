@@ -51,7 +51,7 @@ public class samsPluggin extends JavaPlugin {
 		(new File(pluginFolder)).mkdirs();
 		this.playerNames = new ListStore (new File(pluginFolder + File.separator +"samsPluggin.txt"));
 	
-		this.playerNames.laod();
+		this.playerNames.load();
 		
 		PluginManager pm = this.getServer().getPluginManager();
 	
